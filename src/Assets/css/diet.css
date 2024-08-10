@@ -1,0 +1,136 @@
+/* General styles for the diet page */
+.diet-page {
+  margin-top: 60px;
+  padding: 20px;
+}
+
+.diet-page h1 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Category Grid */
+.category-grid {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+/* Category Card */
+.category-card {
+  display: flex;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease;
+  width: 250px;
+  cursor: pointer;
+}
+
+.category-card:hover {
+  transform: translateY(-10px);
+}
+
+/* Category Image */
+.category-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 10px 0 0 10px;
+}
+
+/* Category Content */
+.category-content {
+  padding: 10px;
+  text-align: left;
+  flex: 1;
+}
+
+.category-content h3 {
+  margin: 0;
+  font-size: 1.1em;
+  color: #000000; /* Orange text */
+}
+
+.category-content p {
+  margin: 5px 0 0;
+  color: #777;
+}
+
+/* Recipes Grid */
+.recipes-grid {
+  margin-top: 40px;
+  width: 100%;
+}
+
+.recipes-grid h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #000000; /* Orange text */
+}
+
+/* Recipes List */
+.recipes-list {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Four columns */
+  gap: 20px; /* Space between cards */
+  margin-top: 20px;
+}
+
+/* Recipe Card */
+.recipe-card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(241, 140, 72, 0.1);
+  overflow: hidden;
+  width: 100%;
+  transition: transform 0.3s ease;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipe-card:hover {
+  transform: translateY(-10px);
+}
+
+/* Recipe Image */
+.recipe-image {
+  width: 100%;
+  height: 200px; /* Adjusted height for smaller images */
+  object-fit: cover;
+  object-position: center;
+  border-radius: 10px 10px 0 0;
+}
+
+/* Recipe Content */
+.recipe-content {
+  padding: 20px;
+}
+
+.recipe-content h3 {
+  margin: 0;
+  font-size: 1.2em; /* Slightly smaller font size */
+  color: rgb(255, 83, 83); /* Orange text */
+}
+
+.recipe-content p {
+  margin: 10px 0;
+  color: #5b5b5b;
+  margin-bottom: 30px;
+}
+
+/* Optional: Add a separator line */
+.recipe-content::before {
+  content: "";
+  display: block;
+  height: 2px;
+  background-color: rgb(255, 83, 83); /* Orange line */
+  margin-bottom: 10px;
+}

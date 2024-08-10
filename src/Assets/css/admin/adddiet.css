@@ -1,0 +1,76 @@
+.add-diet-container {
+  width: 60%; /* Keep the width to 60% */
+  margin: 10px auto;
+  padding: 20px 50px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: white;
+  overflow: hidden; /* Prevent overflow that causes scrollbars */
+}
+
+.add-diet-title {
+  text-align: center;
+  margin-bottom: 10px;
+  color: black;
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.add-diet-form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  overflow: hidden; /* Prevent overflow in form */
+}
+
+.add-diet-form-group {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 calc(50% - 20px); /* Ensure two items per row with gap */
+  box-sizing: border-box;
+  margin-bottom: 1px;
+}
+
+.add-diet-label {
+  display: inline-block;
+  margin-bottom: 8px;
+  color: rgb(37, 37, 37);
+  font-size: 16px;
+}
+
+.add-diet-input,
+.add-diet-textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.add-diet-textarea {
+  height: 80px;
+}
+
+.add-diet-button {
+  padding: 12px;
+  background-color: rgb(255, 83, 83);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-size: 16px;
+  font-weight: bold;
+  width: 60%;
+  box-sizing: border-box;
+  margin: 0 auto; /* Center the button */
+}
+
+.add-diet-button:hover {
+  background-color: rgba(255, 83, 83, 0.8);
+}
+
+.add-diet-form-group.full-width {
+  flex: 1 1 100%; /* Ensure full width for description */
+}

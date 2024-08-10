@@ -1,0 +1,91 @@
+/* appointment.css */
+.appoint {
+  display: flex;
+  height: 630px;
+  border-radius: 10px;
+  width: 60%; /* Adjusted to give more space */
+  justify-content: center;
+  align-items: center; /* Vertically center the child elements */
+  padding: 20px;
+  margin: 0 auto; /* Center the container horizontally */
+  background-image: url('../appointment.jpg');
+  font-family: Arial, sans-serif;
+  z-index: -1;
+}
+
+.form-section {
+  flex: 1;
+  margin: 20px ;
+  margin-top:20px;
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.info-section {
+  flex: 1;
+  margin-top: -350px; /* Adjusted margin */
+  padding: 20px;
+  background: transparent;
+}
+
+.form-section form {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.form-group {
+  flex: 1;
+  min-width: 45%;
+  margin: 10px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+}
+
+.form-group input,
+.form-group textarea {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  background-color: rgb(255, 83, 83);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.btn:hover {
+  background-color: rgb(255, 113, 113);
+}
+
+.info-section h2 {
+  margin-top: 0;
+}
+.info-section p {
+  margin-top: 0;
+  text-wrap:100px;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  color: rgb(255, 83, 83);
+  border: 1px solid rgb(255, 83, 83);
+}
+
+.btn-secondary:hover {
+  background-color: #f8f8f8;
+  border:none;
+}

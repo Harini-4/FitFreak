@@ -1,0 +1,65 @@
+.nutrition-advice-container {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  max-width: 400px;
+  margin: auto;
+  margin-top:40px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nutrition-advice-container h1 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.nutrition-advice-container label {
+  display: block;
+  margin-bottom: 10px;
+  color: #555;
+  font-size: 0.9rem;
+}
+
+.nutrition-advice-container select,
+.nutrition-advice-container input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box;
+  font-size: 0.9rem;
+}
+
+.nutrition-advice-container button {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #ff5353;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease;
+}
+
+.nutrition-advice-container button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.nutrition-advice-container button:hover:not(:disabled) {
+  background-color: #e04e4e;
+}
+
+.nutrition-advice-container p.error {
+  color: red;
+  text-align: center;
+  margin-top: 20px;
+}

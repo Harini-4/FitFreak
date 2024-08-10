@@ -1,0 +1,63 @@
+/* src/components/MembershipPlans.css */
+.membership-plans {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+.plans-container {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.plan {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  width:300px;
+  text-align: center;
+}
+
+.plan-name {
+  background: linear-gradient(90deg, #ff6a6a, #ff8e3a);
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  display: inline-block;
+  margin-bottom: 1rem;
+}
+
+.plan-price {
+  font-size: 2rem;
+  color: #ff6a6a;
+}
+
+.plan-price span {
+  font-size: 1rem;
+  color: #888;
+}
+
+.plan-details {
+  margin: 1rem 0;
+  color: #444;
+}
+
+.plan-details p {
+  margin-bottom: 10px;
+}
+
+.start-now-btn {
+  background: transparent;
+  border: 2px solid #ff6a6a;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  color: #ff6a6a;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.start-now-btn:hover {
+  background: #ff6a6a;
+  color: #fff;
+}
