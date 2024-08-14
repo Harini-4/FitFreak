@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../Assets/css/nav.css';
 import '../Assets/css/diet.css';
 
@@ -10,13 +10,39 @@ import vegetaria from '../Assets/vegetaria.jpeg';
 export default function Diet() {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [recipes, setRecipes] = useState([]);
+  const [categories, setCategories] = useState([
+    { name: 'High Protein', img: highProtein },
+    { name: 'Low Carb', img: lowCarb },
+    { name: 'Dairy Free', img: dairyFree },
+    { name: 'Vegetarian', img: vegetaria },
+  ]);
 
-  const categories = [
-    { name: 'High Protein', img: highProtein, recipes: 10 },
-    { name: 'Low Carb', img: lowCarb, recipes: 10 },
-    { name: 'Dairy Free', img: dairyFree, recipes: 11 },
-    { name: 'Vegetarian', img: vegetaria, recipes: 11 },
-  ];
+  useEffect(() => {
+    const fetchDiets = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/Diet/get');
+        const data = await response.json();
+
+        // Calculate counts for each category
+        const counts = categories.reduce((acc, category) => {
+          acc[category.name] = data.filter(diet => diet.type === category.name).length;
+          return acc;
+        }, {});
+
+        // Update categories with the counts
+        setCategories(prevCategories => 
+          prevCategories.map(category => ({
+            ...category,
+            recipes: counts[category.name] || 0
+          }))
+        );
+      } catch (error) {
+        console.error('Error fetching diets:', error);
+      }
+    };
+
+    fetchDiets();
+  }, [categories]);
 
   const handleCategoryClick = async (category) => {
     const selectedName = category.name;
@@ -24,21 +50,10 @@ export default function Diet() {
   
     try {
       const response = await fetch('http://localhost:8080/Diet/get');
-      
-      // Log response headers and their sizes
-      console.log('Response Headers:');
-      response.headers.forEach((value, key) => {
-        console.log(`${key}: ${value}`);
-        if (key.toLowerCase() === 'content-length') {
-          console.log(`Content-Length Header Size: ${value} bytes`);
-        }
-      });
-  
       const data = await response.json();
   
-      // Filter based on the selected category directly
       const filteredRecipes = data
-        .filter(diet => diet.type === selectedName) // Filter by the selected category name
+        .filter(diet => diet.type === selectedName)
         .map(diet => {
           let base64String;
   
@@ -48,11 +63,8 @@ export default function Diet() {
               String.fromCharCode(...byteArray)
             )}`;
           } else {
-            base64String = diet.image; // Assuming it's a base64 encoded string
+            base64String = diet.image;
           }
-  
-          console.log("Base64 Image String Length:", base64String.length);
-          console.log("Base64 Image String (first 100 chars):", base64String.slice(0, 100));
   
           return {
             name: diet.name,
@@ -103,9 +115,7 @@ export default function Diet() {
               {recipes.map((recipe, index) => (
                 <div key={index} className="recipe-card">
                   <img 
-                    src={recipe.imageType === 'base64' 
-                        ? `data:image/jpeg;base64,${recipe.image}` 
-                        : recipe.image} // Conditional image source
+                    src={`data:image/jpeg;base64,${recipe.image}`} 
                     alt={recipe.name} 
                     className="recipe-image" 
                   />

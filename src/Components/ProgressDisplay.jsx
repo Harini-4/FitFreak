@@ -1,37 +1,33 @@
 import React from 'react';
-import { Bar } from 'react-chartjs-2';
-import 'chart.js/auto'; // Import Chart.js auto for treeshaking
+import { Line } from 'react-chartjs-2';
+import 'chart.js/auto';
 
 const ProgressDisplay = ({ progressData }) => {
-  // Prepare data for the chart
+  // Calculate derived metrics
   const dates = progressData.map((entry) => new Date(entry.date).toLocaleDateString());
-  const weights = progressData.map((entry) => entry.weight);
-  const waists = progressData.map((entry) => entry.waist);
-  const calories = progressData.map((entry) => entry.workoutReps);
+  const caloriesPerKm = progressData.map((entry) => entry.distanceWalked > 0 ? (entry.caloriesBurnt / entry.distanceWalked).toFixed(2) : 0);
+  const activityIntensityScore = progressData.map((entry) => 
+    entry.stepsCount > 0 ? 
+    ((entry.caloriesBurnt / entry.stepsCount) * (entry.heartRate / 100)).toFixed(2) : 0
+  );
 
+  // Prepare data for the chart
   const data = {
     labels: dates,
     datasets: [
       {
-        label: 'Weight (kg)',
-        data: weights,
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
-      },
-      {
-        label: 'Height (cm)',
-        data: waists,
-        backgroundColor: 'rgba(54, 162, 235, 0.5)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1,
-      },
-      {
-        label: 'Calories Burnt (kcal)',
-        data: calories,
-        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+        label: 'Calories Burnt Per Kilometer (kcal/km)',
+        data: caloriesPerKm,
         borderColor: 'rgba(75, 192, 192, 1)',
-        borderWidth: 1,
+        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+        fill: false,
+      },
+      {
+        label: 'Activity Intensity Score',
+        data: activityIntensityScore,
+        borderColor: 'rgba(255, 159, 64, 1)',
+        backgroundColor: 'rgba(255, 159, 64, 0.5)',
+        fill: false,
       },
     ],
   };
@@ -47,8 +43,8 @@ const ProgressDisplay = ({ progressData }) => {
 
   return (
     <div className="progress-display-container">
-      <h2 className="progress-display-title">Progress Over Time</h2>
-      <Bar data={data} options={options} />
+      <h2 className="progress-display-title">Derived Metrics Over Time</h2>
+      <Line data={data} options={options} />
     </div>
   );
 };

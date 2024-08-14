@@ -5,8 +5,9 @@ import Sidebar from './Sidebar';
 import FitnessDashboard from './Dashboard';
 import AddWorkout from './AddWorkouts';
 import AddDiet from './AddDiet';
+import ManageUsers from './ListUsers';
+import ManageAppointmentContent from './AppointmentContent';
 
-// import '../../Assets/css/admin/main.css';
 
 const Main = () => {
   return (
@@ -17,6 +18,8 @@ const Main = () => {
           <Route path="admin/dashboard" element={<FitnessDashboard />} />
           <Route path="admin/workouts" element={<AddWorkout />} />
           <Route path="admin/diet" element={<AddDiet />} />
+          <Route path="admin/users" element={<ManageUsers/>}/>
+          <Route path="admin/analytics" element={<ManageAppointmentContent/>}/>
         </Routes>
       </div>
     </div>

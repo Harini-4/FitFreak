@@ -19,13 +19,13 @@ const BMICalculator = () => {
 
   return (
     <div className="bmi-calculator">
-      <div className="overlay"></div>
+      <div className="bmi-overlay">
       <div className="content">
         <h1>Calculate Your Body Mass Index</h1>
         <p>You love having a second home but the mortgage</p>
         <div className="form">
           <div className="form-group">
-            <label>Your Height (cm)</label>
+            <label style={{color:'white'}}>Your Height (cm)</label>
             <input
               type="text"
               placeholder="Enter Value"
@@ -34,7 +34,7 @@ const BMICalculator = () => {
             />
           </div>
           <div className="form-group">
-            <label>Your Weight (kg)</label>
+            <label style={{color:'white'}}>Your Weight (kg)</label>
             <input
               type="text"
               placeholder="Enter Value"
@@ -45,6 +45,7 @@ const BMICalculator = () => {
           <button onClick={calculateBMI}>Calculate Your BMI</button>
         </div>
         {bmi && <div className="result">Your BMI is: {bmi}</div>}
+      </div>
       </div>
     </div>
   );

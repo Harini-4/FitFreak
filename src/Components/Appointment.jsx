@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../Assets/css/appointment.css';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Appointment = () => {
   const [formData, setFormData] = useState({
@@ -19,10 +21,38 @@ const Appointment = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // handle form submission logic here
-    console.log('Form data:', formData);
+
+    try {
+      const response = await fetch('http://localhost:8080/appointments/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Appointment created:', data);
+      toast.success('Appointment booked successfully!');
+      // Optionally reset form
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        date: '',
+        message: '',
+      });
+    } catch (error) {
+      console.error('Error creating appointment:', error);
+      toast.error('Error creating appointment');
+    }
   };
 
   return (
@@ -102,6 +132,7 @@ const Appointment = () => {
         <p>Book an appointment today to secure your spot with our expert team.</p>
         <button className="btn-secondary">Contact Us</button>
       </div>
+      <ToastContainer /> {/* Make sure to include this to render the toasts */}
     </div>
   );
 };

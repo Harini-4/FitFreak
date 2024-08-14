@@ -1,0 +1,245 @@
+.manage-diet-content {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  margin-top: 20px;
+}
+
+.manage-diet-content h1 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+.manage-diet-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.manage-diet-table thead th {
+  background-color: #f4f4f4;
+  padding: 10px;
+  text-align: left;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.manage-diet-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.manage-diet-table tbody td {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  vertical-align: middle;
+  font-size: 18px;
+}
+
+.manage-diet-image {
+  width: 120px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+}
+
+.manage-diet-icon {
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.manage-diet-edit-btn {
+  color: black;
+}
+
+.manage-diet-delete-btn {
+  color: black;
+}
+
+.manage-diet-icon:hover {
+  opacity: 0.7;
+}
+
+.manage-diet-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.manage-diet-modal1 {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.manage-diet-modal-content1 {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 400px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.manage-diet-modal-content1 form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.manage-diet-modal-content1 label {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.manage-diet-modal-content1 input[type="text"],
+.manage-diet-modal-content1 textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.manage-diet-modal-content1 textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.manage-diet-modal-content1 input::placeholder,
+.manage-diet-modal-content1 textarea::placeholder {
+  color: #999;
+}
+
+.manage-diet-modal-content1 button[type="submit"] {
+  background-color: #007BFF;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.manage-diet-modal-content1 button[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
+.manage-diet-close-button1 {
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transition: color 0.3s ease;
+}
+
+.manage-diet-close-button1:hover {
+  color: #999;
+}
+
+.manage-diet-edit {
+  margin-top: 5px;
+}
+.diet-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.diet-modal-content {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 5px;
+  width: 550px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.diet-close-button {
+  font-size: 24px;
+  color: #333;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  transition: color 0.3s ease;
+}
+
+.diet-close-button:hover {
+  color: #999;
+}
+
+.diet-modal-content form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.diet-modal-content label {
+  font-weight: bold;
+}
+
+.diet-modal-content input[type="text"],
+.diet-modal-content input[type="number"],
+.diet-modal-content textarea {
+  width: 96%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+}
+
+.diet-modal-content textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.diet-modal-content button[type="submit"] {
+  background-color: rgb(255, 83, 83);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.diet-modal-content button[type="submit"]:hover {
+  background-color: rgb(255, 113, 113);
+}
+.diet-filter {
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap:20px;
+}
+
+.diet-filter label {
+  font-weight: bold;
+}
+
+.diet-filter select {
+  padding: 8px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #fff;
+  cursor: pointer;
+}

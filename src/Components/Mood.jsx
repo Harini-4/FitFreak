@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Calendar from './Calendar.jsx';
 import MoodSlider from './Slider';
 import MoodCard from './MoodCard';
+import axios from 'axios';
 
 const Mood = () => {
   const [sleepHours, setSleepHours] = useState(0);
@@ -9,11 +11,83 @@ const Mood = () => {
   const [irritability, setIrritability] = useState(0);
   const [anxiety, setAnxiety] = useState(0);
   const [isMoodLogged, setIsMoodLogged] = useState(false);
-  const [consecutiveDays, setConsecutiveDays] = useState(1);
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [error, setError] = useState('');
+  const [moodData, setMoodData] = useState({});
 
-  const handleLogMood = () => {
-    setIsMoodLogged(true);
-    setConsecutiveDays(consecutiveDays + 1);
+  useEffect(() => {
+    const fetchMoodData = async () => {
+      try {
+        const date = formatDate(selectedDate);
+        const response = await axios.get(`http://localhost:8080/api/mood/log?date=${date}`);
+        if (response.data) {
+          setMoodData(prevData => ({ ...prevData, [date]: response.data }));
+        } else {
+          setMoodData(prevData => ({ ...prevData, [date]: null }));
+        }
+      } catch (error) {
+        console.error('Error fetching mood data:', error);
+      }
+    };
+
+    fetchMoodData();
+  }, [selectedDate]);
+
+  const handleLogMood = async () => {
+    try {
+      const response = await axios.post('http://localhost:8080/api/mood/log', {
+        date: formatDate(selectedDate),
+        sleepHours: sleepHours.toString(),
+        depressedMood: depressedMood.toString(),
+        elevatedMood: elevatedMood.toString(),
+        irritability: irritability.toString(),
+        anxiety: anxiety.toString()
+      });
+
+      console.log('Mood data logged:', response.data);
+      setIsMoodLogged(true);
+      setError(''); // Clear any previous errors
+      setMoodData(prevData => ({ ...prevData, [formatDate(selectedDate)]: response.data }));
+    } catch (error) {
+      console.error('Error logging mood:', error);
+      setError('Failed to log mood: ' + error.message);
+    }
+  };
+
+  const formatDate = (date) => date.toISOString().split('T')[0];
+
+  const tileStyles = {
+    base: {
+      padding: '15px',
+      borderRadius: '8px',
+      margin: '5px',
+      textAlign: 'center',
+      fontSize: '16px',
+      color: 'black',
+    },
+    highlight: {
+      backgroundColor: '#f0f8ff',
+      color: '#000',
+      border: '1px solid #add8e6',
+    },
+    currentDate: {
+      backgroundColor: '#ff5722',
+      color: '#fff',
+      border: '2px solid #ff7043',
+      fontWeight: 'bold',
+      borderRadius: '60%',
+    },
+  };
+
+  const tileClassName = ({ date }) => {
+    const dateString = formatDate(new Date(date));
+    const todayString = formatDate(new Date());
+    const isMoodLoggedForDate = dateString in moodData;
+
+    return [
+      isMoodLoggedForDate ? 'highlight' : '',
+      dateString === todayString ? 'currentDate' : ''
+    ].filter(Boolean).join(' ');
   };
 
   return (
@@ -29,7 +103,13 @@ const Mood = () => {
         minHeight: '500px',
       }}
     >
-      {isMoodLogged && <MoodCard consecutiveDays={consecutiveDays} />}
+      {error && (
+        <div style={{ color: 'red', marginBottom: '20px' }}>
+          {error}
+        </div>
+      )}
+
+      {isMoodLogged && <MoodCard />}
 
       <div
         className="slider-container"
@@ -94,18 +174,26 @@ const Mood = () => {
           style={{
             marginTop: '20px',
             padding: '10px 20px',
-            backgroundColor: 'rgb(255, 83, 83)',
-            color: 'white',
+            fontSize: '16px',
+            borderRadius: '8px',
             border: 'none',
-            borderRadius: '4px',
+            backgroundColor: '#ff5722',
+            color: '#fff',
             cursor: 'pointer',
           }}
         >
           Log Mood
         </button>
       )}
+
+      <Calendar
+        onDateClick={(date) => setSelectedDate(date)}
+        tileClassName={tileClassName}
+        tileStyle={tileStyles.base}
+        moodData={moodData} // Pass mood data to the Calendar component
+      />
     </div>
   );
-}
+};
 
 export default Mood;

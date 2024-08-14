@@ -1,52 +1,61 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import logo from '../Assets/logo.png';
-import Modal from './Modal';
-import Login from './Login';
-import Signup from './Signup';
 import profile from '../Assets/profile.webp';
+import PropTypes from 'prop-types';
+import axios from 'axios';
 
-export default function Navigationav() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [isLogin, setIsLogin] = useState(true);
-  const [username, setUsername] = useState('');
+export default function Navigationav({ username: propUsername }) {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [activePage, setActivePage] = useState('Home');
-
+  const [user, setUser] = useState(null);
   const dropdownRef = useRef(null);
   const profileRef = useRef(null);
-
   const location = useLocation();
-
-  const openModal = () => setIsModalOpen(true);
-  const closeModal = () => setIsModalOpen(false);
-
-  const switchToLogin = () => setIsLogin(true);
-  const switchToSignup = () => setIsLogin(false);
-
-  const handleLogin = (username) => {
-    setUsername(username);
-    closeModal();
-  };
-
-  const handleSignOut = () => {
-    setUsername('');
-    setDropdownOpen(false);
-  };
-
-  const handleClickOutside = (event) => {
-    if (
-      dropdownRef.current &&
-      !dropdownRef.current.contains(event.target) &&
-      profileRef.current &&
-      !profileRef.current.contains(event.target)
-    ) {
-      setDropdownOpen(false);
-    }
-  };
+  const navigate = useNavigate();
 
   useEffect(() => {
+    // Function to set the username from prop or storage
+    const setUsername = async () => {
+      if (propUsername) {
+        // Prioritize propUsername if it exists
+        setUser(propUsername);
+        localStorage.setItem('username', propUsername); // Store in localStorage
+      } else {
+        // Check localStorage for the username
+        const storedUsername = localStorage.getItem('username');
+        if (storedUsername) {
+          setUser(storedUsername);
+        } else {
+          // Fetch the latest username from the server if no username is set
+          try {
+            const response = await axios.get('http://localhost:8080/Fitfreak/users');
+            const latestUsername = response.data[response.data.length - 1].username;
+            setUser(latestUsername);
+            localStorage.setItem('username', latestUsername);
+          } catch (error) {
+            console.error('Error fetching users:', error);
+          }
+        }
+      }
+    };
+
+    setUsername();
+  }, [propUsername]);
+
+  useEffect(() => {
+    // Close the dropdown if clicking outside of it
+    const handleClickOutside = (event) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target) &&
+        profileRef.current &&
+        !profileRef.current.contains(event.target)
+      ) {
+        setDropdownOpen(false);
+      }
+    };
+
     document.addEventListener('mousedown', handleClickOutside);
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -54,8 +63,9 @@ export default function Navigationav() {
   }, []);
 
   useEffect(() => {
+    // Set the active page based on the current path
     const pathToPage = {
-      '/': 'Home',
+      '/home': 'Home',
       '/workout': 'Workouts',
       '/mental-care': 'Mental Care',
       '/diet-plan': 'Diet Plan',
@@ -64,6 +74,14 @@ export default function Navigationav() {
     setActivePage(pathToPage[location.pathname] || 'Home');
   }, [location]);
 
+  const handleSignOut = () => {
+    // Sign out the user and clear the username
+    localStorage.removeItem('username');
+    setUser(null);
+    setDropdownOpen(false);
+    navigate("/");
+  };
+
   return (
     <div>
       <div className="nav-bar">
@@ -71,35 +89,30 @@ export default function Navigationav() {
           <img className="logo-icon" src={logo} alt="Logo" />
         </div>
         <div className="page-names">
-          <Link to="/" className={activePage === 'Home' ? 'active' : ''}>Home</Link>
+          <Link to="/home" className={activePage === 'Home' ? 'active' : ''}>Home</Link>
           <Link to="/workout" className={activePage === 'Workouts' ? 'active' : ''}>Workouts</Link>
           <Link to="/mental-care" className={activePage === 'Mental Care' ? 'active' : ''}>Mental Care</Link>
           <Link to="/diet-plan" className={activePage === 'Diet Plan' ? 'active' : ''}>Diet Plan</Link>
           <Link to="/my-progress" className={activePage === 'My Progress' ? 'active' : ''}>My Progress</Link>
         </div>
         <div className="log">
-          {username ? (
+          {user && (
             <div className="after-login" onClick={() => setDropdownOpen(!dropdownOpen)} ref={profileRef}>
               <img className="after-profile" src={profile} alt="Profile" />
-              <p className="after-name">{username}</p>
+              <p className="after-name">{user}</p>
               {dropdownOpen && (
                 <div className="dropdown-menu" ref={dropdownRef}>
                   <button onClick={handleSignOut}>Sign Out</button>
                 </div>
               )}
             </div>
-          ) : (
-            <button onClick={() => { openModal(); switchToLogin(); }}>Log in</button>
           )}
         </div>
       </div>
-      <Modal isOpen={isModalOpen} onClose={closeModal}>
-        {isLogin ? (
-          <Login switchToSignup={switchToSignup} onClose={closeModal} onLogin={handleLogin} />
-        ) : (
-          <Signup switchToLogin={switchToLogin} onClose={closeModal} onSignup={handleLogin}/>
-        )}
-      </Modal>
     </div>
   );
 }
+
+Navigationav.propTypes = {
+  username: PropTypes.string,
+};

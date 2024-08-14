@@ -4,7 +4,7 @@ const options = {
 	method: 'GET',
 	hostname: 'exercisedb.p.rapidapi.com',
 	port: null,
-	path: '/exercises/bodyPart/back?limit=10&offset=0',
+	path: '/exercises/bodyPart/back?limit=100&offset=0',
 	headers: {
 		'x-rapidapi-key': 'bf12433119msh7bab07b48f13703p1a1475jsn7a6bd2127978',
 		'x-rapidapi-host': 'exercisedb.p.rapidapi.com'

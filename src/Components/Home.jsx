@@ -1,4 +1,4 @@
-
+import React from 'react';
 import Bmi from '../Components/Bmi';
 import '../Assets/css/Home.css';
 import gym from '../Assets/gym-icon.png';
@@ -16,12 +16,10 @@ import twitter from '../Assets/twitter.png';
 import insta from '../Assets/insta.png';
 
 import backgroundImage from '../Assets/home.webp';
-// import MembershipPlans from './Membership';
 import NewsletterForm from './newsletter';
+import CommentSection from './CommentSection';
 
-
-export default function Home() {
-  
+export default function Home( {username} ) {
 
   return (
     <div>
@@ -64,7 +62,10 @@ export default function Home() {
       </section>
 
       <Bmi />
-      {/* <MembershipPlans /> */}
+      
+      {/* Pass username to CommentSection */}
+      <CommentSection username={username} />
+
       <NewsletterForm />
       <footer className="footer">
         <div className="footer-section about-us">

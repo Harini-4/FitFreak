@@ -11,33 +11,35 @@ export default function UserDetailsModal({ username }) {
   const [goal, setGoal] = useState('');
   const navigate = useNavigate();
 
+  const userId = localStorage.getItem('userId');
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    // Convert age, height, and weight to numbers to ensure correct data types
     const userDetails = {
       age: Number(age),
       gender,
       height: Number(height),
       weight: Number(weight),
       goal,
+      signupId: Number(userId),
     };
 
-    try {
+    try { 
       const response = await fetch('http://localhost:8080/user-details/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          username: username, // pass the username
+          username, // pass the username
           ...userDetails,
         }),
       });
 
       if (response.ok) {
         console.log('User details saved successfully');
-        navigate('/'); // Navigate to the home page
+        navigate('/home'); // Navigate to the home page
       } else {
         const errorData = await response.text(); // Read error response body
         console.error('Failed to save user details:', errorData);
@@ -46,7 +48,6 @@ export default function UserDetailsModal({ username }) {
       console.error('Error:', error);
     }
   };
-
   return (
     <div className="user-details">
       <div className="user-details-content">

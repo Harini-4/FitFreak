@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import '../../Assets/css/admin/addworkout.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddWorkout = () => {
   const [workout, setWorkout] = useState({
@@ -12,8 +14,8 @@ const AddWorkout = () => {
     duration: '',
     rest: ''
   });
-  const [message, setMessage] = useState('');
-  const [isError, setIsError] = useState(false);
+  const message = useState('');
+  const isError = useState(false);
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,15 +43,22 @@ const AddWorkout = () => {
     formData.append('sets', workout.sets);
     formData.append('duration', workout.duration);
     formData.append('rest', workout.rest);
-
+  
     try {
       const response = await fetch("http://localhost:8080/Workout/add", {
         method: 'POST',
         body: formData,
       });
       if (response.ok) {
-        setMessage('Workout added successfully!');
-        setIsError(false);
+        toast.success('Workout added successfully!', {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
         setWorkout({
           gif: '',
           name: '',
@@ -61,18 +70,34 @@ const AddWorkout = () => {
           rest: ''
         });
       } else {
-        setMessage('Error adding workout: ' + response.statusText);
-        setIsError(true);
+        toast.error('Error adding workout: ' + response.statusText, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     } catch (error) {
-      setMessage('Error adding workout: ' + error.message);
-      setIsError(true);
+      toast.error('Error adding workout: ' + error.message, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
+  
 
   return (
     <div className="add-workout-container">
-      <h2 className="add-workout-title">Add New Workout</h2>
+      <ToastContainer />
+      <h2 className="add-workout-title">Add Daily Workout</h2>
       {message && (
         <div
           style={{

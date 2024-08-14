@@ -2,8 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Assets/css/Signup.css';
 import fit from "../Assets/signup.png";
+import axios from 'axios';
+import PropTypes from 'prop-types';
 
-export default function Signup({ onClose, switchToLogin,onSignup }) {
+export default function Signup({ onClose, switchToLogin, onSignup }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
@@ -13,67 +15,60 @@ export default function Signup({ onClose, switchToLogin,onSignup }) {
 
   const navigate = useNavigate();
 
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-  };
-
-  const handleEmailChange = (event) => {
-    setEmail(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleConfirmPasswordChange = (event) => {
-    setConfirmPassword(event.target.value);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    if (!username || !email || !password || !confirmPassword) {
+  // Signup Component (handleSubmit method)
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  
+  if (!username || !email || !password || !confirmPassword) {
       setError('Please fill in all fields');
       return;
-    }
-    if (password !== confirmPassword) {
+  }
+  if (password !== confirmPassword) {
       setError('Passwords do not match');
       return;
-    }
-    
-    setError('');
-    console.log('Form Data:', { username, email, password });
+  }
+  
+  setError('');
+  console.log('Form Data:', { username, email, password });
 
-    try {
+  try {
       const response = await fetch("http://localhost:8080/Fitfreak/signup", {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          username,
-          email,
-          password
-        }),
+          method: 'POST',
+          headers: {
+              "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+              username,
+              email,
+              password
+          }),
       });
 
-      console.log('Response Status:', response.status);
       const responseData = await response.text();
       console.log('Response Body:', responseData);
 
+      const res = await axios.get('http://localhost:8080/Fitfreak/users');
+      const userId = res.data[res.data.length - 1].id;
+      localStorage.setItem('userId', userId); // Storing userId
+      // localStorage.setItem('username', username); 
+
       if (response.ok) {
-        onSignup=(username);
-        navigate("/userdetail");
+          if (typeof onSignup === 'function') {
+              onSignup(username); // Pass username to callback
+          } else {
+              console.error('onSignup is not a function');
+          }
+          navigate("/userdetail");
       } else {
-        setError(responseData);
+          setError(responseData);
       }
-    }
-    catch (error) {
+  } catch (error) {
       console.error('Fetch Error:', error);
       setError('An unexpected error occurred');
-    }
-  };
+  }
+};
 
+  console.log('Username in Signup:', username);
 
   return (
     <div className="modal-signup">
@@ -85,28 +80,28 @@ export default function Signup({ onClose, switchToLogin,onSignup }) {
             <input
               type="text"
               value={username}
-              onChange={handleUsernameChange}
+              onChange={(e) => setUsername(e.target.value)}
               placeholder="Username"
             />
             {errors.username && <span className="error">{errors.username}</span>}
             <input
               type="email"
               value={email}
-              onChange={handleEmailChange}
+              onChange={(e) => setEmail(e.target.value)}
               placeholder="Email"
             />
             {errors.email && <span className="error">{errors.email}</span>}
             <input
               type={showPassword ? "text" : "password"}
               value={password}
-              onChange={handlePasswordChange}
+              onChange={(e) => setPassword(e.target.value)}
               placeholder="Password"
             />
             {errors.password && <span className="error">{errors.password}</span>}
             <input
               type={showPassword ? "text" : "password"}
               value={confirmPassword}
-              onChange={handleConfirmPasswordChange}
+              onChange={(e) => setConfirmPassword(e.target.value)}
               placeholder="Confirm Password"
             />
             {errors.confirmPassword && <span className="error">{errors.confirmPassword}</span>}
@@ -131,3 +126,9 @@ export default function Signup({ onClose, switchToLogin,onSignup }) {
     </div>
   );
 }
+
+Signup.propTypes = {
+  onClose: PropTypes.func,
+  switchToLogin: PropTypes.func,
+  onSignup: PropTypes.func.isRequired
+};

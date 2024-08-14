@@ -74,7 +74,7 @@ const FitnessDashboard = () => {
                             <Box display="flex" alignItems="center">
                                 <Assignment sx={{ fontSize: 40, color: 'rgb(255, 83, 83)', mr: 2 }} />
                                 <Box>
-                                    <Typography variant="h6">Progress Reports</Typography>
+                                    <Typography variant="h6">Active Appointments</Typography>
                                     <Typography variant="h4">456</Typography>
                                     <Typography color="textSecondary">Up from yesterday</Typography>
                                 </Box>

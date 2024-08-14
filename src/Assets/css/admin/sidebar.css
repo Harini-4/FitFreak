@@ -84,8 +84,8 @@
 .main-content {
   margin-left: 250px; /* Offset by the width of the sidebar */
   padding: 20px;
-  background-color: #f8f9fa; 
-  height: 70vh;/* Light background for contrast */ /* Ensure it covers the full height */
+  background-color: white; 
+  height: 70vh;
 }
 
 .sidebar-icon {

@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import '../../Assets/css/admin/adddiet.css';
+import ManageDietContent from './DietContent';
 
 const AddDiet = () => {
   const [diet, setDiet] = useState({
@@ -12,9 +15,6 @@ const AddDiet = () => {
     rating: '',
     type: ''
   });
-
-  const [message, setMessage] = useState('');
-  const [isError, setIsError] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -48,9 +48,9 @@ const AddDiet = () => {
         method: 'POST',
         body: formData,
       });
+
       if (response.ok) {
-        setMessage('Diet added successfully!');
-        setIsError(false);
+        toast.success('Diet added successfully!');
         setDiet({
           image: '',
           name: '',
@@ -62,90 +62,81 @@ const AddDiet = () => {
           type: ''
         });
       } else {
-        setMessage('Error adding diet: ' + response.statusText);
-        setIsError(true);
+        throw new Error('Error adding diet: ' + response.statusText);
       }
     } catch (error) {
-      setMessage('Error adding diet: ' + error.message);
-      setIsError(true);
+      toast.error('Failed to add diet: ' + error.message);
     }
   };
 
   return (
-    <div className="add-diet-container">
-      <h2 className="add-diet-title">Add New Diet</h2>
-      {message && (
-        <div
-          style={{
-            color: isError ? 'red' : 'green',
-            fontWeight: 'bold'
-          }}
-        >
-          {message}
-        </div>
-      )}
-      <form className="add-diet-form" onSubmit={handleSubmit}>
-        <div className="add-diet-form-group">
-          <label className="add-diet-label">
-            Image:
-            <input className="add-diet-input" type="file" name="image" onChange={handleFileChange} />
-          </label>
-        </div>
-        <div className="add-diet-form-group">
-          <label className="add-diet-label">
-            Name:
-            <input className="add-diet-input" type="text" name="name" value={diet.name} onChange={handleChange} />
-          </label>
-        </div>
-        <div className="add-diet-form-group">
-          <label className="add-diet-label">
-            Ingredients:
-            <textarea className="add-diet-textarea" name="ingredients" value={diet.ingredients} onChange={handleChange}></textarea>
-          </label>
-        </div>
-        <div className="add-diet-form-group">
-          <label className="add-diet-label">
-            Steps:
-            <textarea className="add-diet-textarea" name="steps" value={diet.steps} onChange={handleChange}></textarea>
-          </label>
-        </div>
-        <div className="add-diet-form-group">
-          <label className="add-diet-label">
-            Nutrition:
-            <input className="add-diet-input" type="text" name="nutrition" value={diet.nutrition} onChange={handleChange} />
-          </label>
-        </div>
-        <div className="add-diet-form-group">
-          <label className="add-diet-label">
-            Time:
-            <input className="add-diet-input" type="text" name="time" value={diet.time} onChange={handleChange} />
-          </label>
-        </div>
-        <div className="add-diet-form-group">
-          <label className="add-diet-label">
-            Rating:
-            <input className="add-diet-input" type="number" name="rating" value={diet.rating} onChange={handleChange} />
-          </label>
-        </div>
-        <div className="add-diet-form-group">
-  <label className="add-diet-label">
-    Type:
-    <select
-      className="add-diet-input"
-      name="type"
-      value={diet.type}
-      onChange={handleChange}
-    >
-      <option value="High Protein">High Protein</option>
-      <option value="Dairy Free">Dairy Free</option>
-      <option value="Low Carb">Low Carb</option>
-      <option value="Vegetarian">Vegetarian</option>
-    </select>
-  </label>
-</div>
-
-        <button className="add-diet-button" type="submit">Add Diet</button>
-      </form>
+    <div>
+      <div className="add-diet-container">
+        <h2 className="add-diet-title">Add New Diet</h2>
+        <form className="add-diet-form" onSubmit={handleSubmit}>
+          <div className="add-diet-form-group">
+            <label className="add-diet-label">
+              Image:
+              <input className="add-diet-input" type="file" name="image" onChange={handleFileChange} />
+            </label>
+          </div>
+          <div className="add-diet-form-group">
+            <label className="add-diet-label">
+              Name:
+              <input className="add-diet-input" type="text" name="name" value={diet.name} onChange={handleChange} />
+            </label>
+          </div>
+          <div className="add-diet-form-group">
+            <label className="add-diet-label">
+              Ingredients:
+              <textarea className="add-diet-textarea" name="ingredients" value={diet.ingredients} onChange={handleChange}></textarea>
+            </label>
+          </div>
+          <div className="add-diet-form-group">
+            <label className="add-diet-label">
+              Steps:
+              <textarea className="add-diet-textarea" name="steps" value={diet.steps} onChange={handleChange}></textarea>
+            </label>
+          </div>
+          <div className="add-diet-form-group">
+            <label className="add-diet-label">
+              Nutrition:
+              <input className="add-diet-input" type="text" name="nutrition" value={diet.nutrition} onChange={handleChange} />
+            </label>
+          </div>
+          <div className="add-diet-form-group">
+            <label className="add-diet-label">
+              Time:
+              <input className="add-diet-input" type="text" name="time" value={diet.time} onChange={handleChange} />
+            </label>
+          </div>
+          <div className="add-diet-form-group">
+            <label className="add-diet-label">
+              Rating:
+              <input className="add-diet-input" type="number" name="rating" value={diet.rating} onChange={handleChange} />
+            </label>
+          </div>
+          <div className="add-diet-form-group">
+            <label className="add-diet-label">
+              Type:
+              <select
+                className="add-diet-input"
+                name="type"
+                value={diet.type}
+                onChange={handleChange}
+              >
+                <option value="High Protein">High Protein</option>
+                <option value="Dairy Free">Dairy Free</option>
+                <option value="Low Carb">Low Carb</option>
+                <option value="Vegetarian">Vegetarian</option>
+              </select>
+            </label>
+          </div>
+          <button className="add-diet-button" type="submit">Add Diet</button>
+        </form>
+      </div>
+      <ManageDietContent />
+      <ToastContainer />
     </div>
   );
 };
